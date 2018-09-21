@@ -15,7 +15,10 @@ self.addEventListener('message', function (event) {
 });
 
 setInterval(function () {
-    return clients.matchAll({includeUncontrolled: false, type: 'window'}).then(function (matchedClients) {
+    clients.matchAll({
+        includeUncontrolled: false,
+        type: 'window'
+    }).then(function (matchedClients) {
         matchedClients.forEach(function (client) {
             client.postMessage([date / 1000, Date.now() / 1000]);
         });

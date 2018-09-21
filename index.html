@@ -10,6 +10,15 @@
                     logMessage("Registration ready");
                 });
 
+                // ping serviceWorker every 15s, to prevent it from stopping
+                setInterval(function () {
+                    var controller = navigator.serviceWorker.controller;
+                    if (controller) {
+                        console.log('ping', controller);
+                        controller.postMessage('1');
+                    }
+                }, 15000);
+
                 navigator.serviceWorker.onmessage = function (e) {
                     var data = e.data;
                     console.log('rcv', e);
