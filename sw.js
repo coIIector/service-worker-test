@@ -1,0 +1,1 @@
+var date = Date.now();
