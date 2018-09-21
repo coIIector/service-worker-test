@@ -3,21 +3,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         jQuery(function ($) {
-            navigator.serviceWorker.register("./sw.js").then(function (registration) {
+            navigator.serviceWorker.register("./sw.js").then(function (r1) {
                 logMessage("Registration successful");
+                console.log(r1);
 
-                navigator.serviceWorker.ready.then(function () {
+                navigator.serviceWorker.ready.then(function (r2) {
                     logMessage("Registration ready");
+                    console.log(r2);
                 });
 
-                // ping serviceWorker every 15s, to prevent it from stopping
-                setInterval(function () {
-                    var controller = navigator.serviceWorker.controller;
-                    if (controller) {
-                        console.log('ping', controller);
-                        controller.postMessage('1');
-                    }
-                }, 15000);
+                setTimeout(ping, 500);
+                setTimeout(ping, 5000);
+                setTimeout(ping, 1000);
+                setInterval(ping, 15000); // ping serviceWorker every 15s, to prevent it from stopping
 
                 navigator.serviceWorker.onmessage = function (e) {
                     var data = e.data;
@@ -33,10 +31,21 @@
             function logMessage(text) {
                 $('<li/>', {text: text}).prependTo($ul);
             }
+
+            function ping() {
+                var controller = navigator.serviceWorker.controller;
+                if (controller) {
+                    console.log('ping', controller);
+                    controller.postMessage('1');
+                }
+            }
         });
     </script>
 </head>
-<body>
+<body style="white-space: pre-wrap">
+chrome://inspect/#service-workers
+chrome://serviceworker-internals
+about:debugging#workers
 <ul style="list-style: none; white-space: pre-wrap">
 
 </ul>

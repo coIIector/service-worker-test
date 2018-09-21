@@ -1,4 +1,4 @@
-var date = Date.now();
+var date = new Date().toISOString();
 
 self.addEventListener('install', function (event) {
     console.log('install', event);
@@ -20,7 +20,8 @@ setInterval(function () {
         type: 'window'
     }).then(function (matchedClients) {
         matchedClients.forEach(function (client) {
-            client.postMessage([date / 1000, Date.now() / 1000]);
+            console.log("client", client);
+            client.postMessage([date, new Date().toISOString()]);
         });
     });
-}, 1000);
+}, 5000);
