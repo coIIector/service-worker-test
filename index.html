@@ -1,1 +1,35 @@
-1
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        jQuery(function ($) {
+            navigator.serviceWorker.register("./sw.js").then(function (registration) {
+                logMessage("Registration successful");
+
+                navigator.serviceWorker.ready.then(function () {
+                    logMessage("Registration ready");
+                });
+
+                navigator.serviceWorker.onmessage = function (e) {
+                    var data = e.data;
+                    console.log('rcv', e);
+                    logMessage("Message received\n" + JSON.stringify(data, null, '\t'));
+                };
+            }).catch(function (error) {
+                logMessage("Registration failed. " + error.message);
+            });
+
+            var $ul = $('body > ul');
+
+            function logMessage(text) {
+                $('<li/>', {text: text}).prependTo($ul);
+            }
+        });
+    </script>
+</head>
+<body>
+<ul style="list-style: none; white-space: pre-wrap">
+
+</ul>
+</body>
+</html>
